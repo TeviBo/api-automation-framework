@@ -9,7 +9,7 @@ on:
       - main
 env:
   ENVIRONMENT: QA
-  LOG_LEVEL: DEBUG
+  LOG_LEVEL: INFO
 
 jobs:
   build:
@@ -28,7 +28,11 @@ jobs:
             -t integration-tests .
       - name: Run Tests for JOKR Application
         run: |
-          docker run --rm --name integration-tests-container \
+          docker run --name integration-tests-container \
                   -e TAG=LOGIN -e PLATFORM=AND -e CLEAN_LOGS=True \
                   -e APPLICATION=JKR -e NOT_RUN=~MRK -e TAG_BUG=~BUG \
                     integration-tests
+      - name: Clean Container
+        run: |
+          docker stop integration-tests-container
+          docker rm integration-tests-container
