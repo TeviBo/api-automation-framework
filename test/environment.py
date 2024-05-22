@@ -3,11 +3,8 @@ import os
 
 from behave import fixture, use_fixture
 
-from src.lib.infra.models.app.app_user_model import AppUserModel
-from src.lib.infra.models.store.store_user_model import StoreUserModel
 from src.utils import utils, data_manager
-from src.utils.log_verifier.log_verifier_factory.verifiers.base_verifier import LogVerifier
-from src.utils.logger import GoogleCloudLoggingClient, logger
+from src.utils.logger import logger
 
 BASE_DIR = utils.go_up_n_dirs(os.path.abspath(__file__), 2)
 ENV_DIR = os.path.join(BASE_DIR, 'src', 'data', 'environments')
@@ -52,15 +49,8 @@ def behave_fixture(context):
     context.HOST = context.BASE_ENV_VARS['host']
     context.APP_VERSION = context.BASE_ENV_VARS["app_version"]
     context.PATHS = context.APP_ENV_VARS['paths']
-    context.STORE_USERNAME = context.APP_ENV_VARS["STORE"]["USERNAME"]
     logger.debug("Variables created successfully !")
 
-    logger.debug("Creating GCP instance...")
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(ENV_DIR, 'resources',
-                                                                'google_cloud_credentials.json')
-    credentials = GoogleCloudLoggingClient.get_credentials()
-    LogVerifier._google_client = GoogleCloudLoggingClient(credentials=credentials)
-    logger.debug("GCP instance created successfully")
     logger.info("Environment and Test Data loaded succesfully")
     yield context
     logger.info("Tearing down Behave fixture")
@@ -77,26 +67,11 @@ def before_all(context):
 
 def before_feature(context, feature):
     logger.info(f'\t[RUNNING FEATURE] {feature.name}\t'.center(100, '-'))
-    context.app_user = AppUserModel()
-    context.app_user.application = context.APPLICATION
-    context.store_user = StoreUserModel()
     context.DATA_MANAGER = data_manager
-    if feature.name.upper() in ['CHECKOUT', 'SMOKE TESTS']:
-        if context.APPLICATION == "JKR":
-            context.BEETRACK_API_KEY = context.BASE_ENV_VARS["beetrack"]["api_key"]
-            context.BEETRACK_DRIVER_IDENTIFIER = context.BASE_ENV_VARS["beetrack"]["driver_identifier"]
-            context.BEETRACK_TRUCK_IDENTIFIER = context.BASE_ENV_VARS["beetrack"]["truck_identifier"]
-            context.BEETRACK_SUB_STATUSES = context.BASE_ENV_VARS["beetrack"]["sub_statuses"]
 
 
 def before_scenario(context, scenario):
     logger.info(f'\t[RUNNING SCENARIO] {scenario.name}\t'.center(100, '-'))
-    if "RESET_VALUES" in scenario.tags:
-        if context.VALUES["USER_DATA"].get("usuario_app"):
-            context.app_user.clean()
-            context.store_user.clean()
-            context.VALUES["USER_DATA"].update(context.app_user.get_user())
-            context.VALUES["USER_DATA"].update(context.store_user.get_user())
 
 
 def after_scenario(context, scenario):
@@ -119,7 +94,7 @@ def after_all(context):
     logger.info("Allure environment.properties file created successfully")
 
     logger.info("Creating allure categories.json file...")
-    utils.create_allure_categories_file(os.path.join(BASE_DIR, 'reports', 'allure-results'))
+    utils.create_allure_categories_file(os.path.join(BASE_DIR, 'test', 'reports', 'allure-results'))
     logger.info("Allure categories.json file created successfully")
 
     logger.info("\t[END] BACKEND AUTOMATION\t".center(100, '*'))

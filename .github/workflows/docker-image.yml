@@ -24,14 +24,6 @@ jobs:
         run: pwd
       - name: List files in the working directory
         run: ls -la
-      - name: Set Environment Variables
-        run: |
-          echo "ENVIRONMENT=QA" >> $GITHUB_ENV
-          echo "LOG_LEVEL=DEBUG" >> $GITHUB_ENV
-      - name: Verify Environment Variables
-        run: |
-          echo $ENVIRONMENT
-          echo $LOG_LEVEL
       - name: Build Docker image
         run: |
           docker build --build-arg ENV=${{ env.ENVIRONMENT }} --build-arg LOG_LEVEL=${{ env.LOG_LEVEL }} \
@@ -39,6 +31,6 @@ jobs:
       - name: Run Tests for JOKR Application
         run: |
           docker run --rm --name integration-tests-container \
-                  -e TAG=84147 -e PLATFORM=AND -e CLEAN_LOGS=True \
+                  -e TAG=LOGIN -e PLATFORM=AND -e CLEAN_LOGS=True \
                   -e APPLICATION=JKR -e NOT_RUN=~MRK -e TAG_BUG=~BUG \
                     integration-tests

@@ -1,74 +1,9 @@
 {
   "paths": {
-    "private": "agora-private-merkao",
-    "store_management": "agora-merkao-store-management",
-    "identity": "agora-public/identity/merkao",
-    "haert": "agora-backoffice-merkao",
-    "campaign-hub": "campaign-hub-merkao"
+    "identity": "agora-public/identity/merkao"
   },
   "register_tokens": {
     "engagementId": "Zb3pOYd5RHFwLmxGxJzZQbm3EpMngSFd608+ekqtfGsLUiak+q7+A9SlbVk3XK0YBZantEpZhLRxvB+F6mTCDwFAdIgMMcIw2a0HSyVK2P7JtGSIK9lRdYNF01hazUeHhqVX07qzrV2LOZmANpIUYF5YLcC173Idai2CbhNa7Dqgk/tPCg3KBFpRFdXuxfTOmE/chIBWhbv2DF1b5R6LjBjyjp+WNDj/i+1eWY180BI=",
     "token": "bTRvuJHlU0AZGKznjNreS1nJYRFc1OztDYyNlFQXyt4uZh1vtgb/KJi9rYXx7vWQLhj8V0J7jvZaSerVXzaPNvmKCMxtaiowvXSNB87BQnxrn5b7NUNshnOtcR1RFp74ZYPeG8yoKKXOzE5Qh8Sr+h6tjxF+i8ie4YW/kLbjWpiFv+iLiIQNphnhUOsekDSrCKuMgdWe9RUezSN6GHYAmABS68UXjddasWs/399IyMxTBkxouJUz10ojBRo2PUG8FE+qUsZkNbNlKwyPkz/eiac1NTQrYaJXyPZg7VfkTHiZpPatnYDlGzGCSfEOpkL9+hx25vqyKb8o2/HUtkmgfEeS2dAy5igOUsVBLtsXGFQvCC32eCkHcuD7JmggepxqqPqHFQudac7I1YAP73SLXH+s+DbSl/F6zMAkZia5FRxYQtmzaMw7O2hRVHqNJy7coUvbeQtC31KmMxg8+QLADPVqsDNLpstLspTiE2lzWHPs/6mBgHpFAmEuS3jPhw2yfP/UWy3wSRjv3paKNEP+oAnGBkfR1Gx55NscidcnPPle9e9aQ2eod/MWjkp/f2arfJNxtZl96f9vubKGvOeEqZKP/J8UB0ms9vXcnkwv71zc0/L7Fw7u9jzB1ntKQx4g2gtfO90AsH6EWGgWeskLTi8iwF78RfQWs+gXbEPCtIM="
-  },
-  "oauth_credentials": {
-    "pmm": {
-      "client_id": "kWR29dttSeNqTGmisMcdAM9ONqp2HqGXylvaxHxcJfG8jLuR",
-      "secret": "3StBNRjQCiJVV0BXA2f2YOxIYwtaeGI4B3hi2NYeWe8aNYRjlCf3eg6SKAttLzDK"
-    },
-    "register": {
-      "client_id": "UQ4qT9oFCEaWjz2lGGBT6yTzRFlc74TsgQveZk09INArZwVb",
-      "secret": "DfVwG9XxVlMCivAJ0xzKSiRu2BCSjL5XeozMobQ99jn8DHM4EyeGPC3ocOQzSENp"
-    }
-  },
-  "STORE": {
-    "users": [
-      "merkao1@qa.com",
-      "merkao2@qa.com",
-      "merkao3@qa.com",
-      "merkao4@qa.com"
-    ],
-    "USERNAME": "merkao@qa.com",
-    "STORE_ID": "e1cd2bc9-a99f-46ca-8157-7fbee65bbf6c",
-    "NAME": "Merkao",
-    "HUBS": {
-      "LIM013": {
-        "SUBSIDIARY_ID": "81567e3b-03ab-491b-98fd-5fbc661e1eed",
-        "CODE": "SPSA-957"
-      },
-      "LIM014": {
-        "SUBSIDIARY_ID": "7f3d3c31-bdbe-4973-9071-9cda4e660fee",
-        "CODE": "SPSA-1501"
-      }
-    }
-  },
-  "addresses": {
-    "LIM014": {
-      "title": "AUTOMATION TEST LIM014",
-      "departmentCode": "15",
-      "provinceCode": "1501",
-      "districtCode": "150132",
-      "trackType": "CALLE",
-      "trackName": "Calle las Hortencias",
-      "trackNumber": "159",
-      "latitude": -11.971208824555593,
-      "longitude": -77.00314005836795,
-      "countryCode": "PE",
-      "isPrincipal": false,
-      "reference": "Automation LIM014"
-    },
-    "LIM013": {
-      "title": "AUTOMATION TEST LIM013",
-      "departmentCode": "15",
-      "provinceCode": "1501",
-      "districtCode": "150132",
-      "trackType": "CALLE",
-      "trackName": "Avenida Argentina",
-      "trackNumber": "2085",
-      "latitude": -12.050222737326175,
-      "longitude": -77.1213499456644,
-      "countryCode": "PE",
-      "isPrincipal": true,
-      "reference": "Automation LIM013"
-    }
   }
 }

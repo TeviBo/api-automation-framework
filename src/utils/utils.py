@@ -55,7 +55,7 @@ def clean_logs_dir(path: str) -> None:
 def create_allure_environment_file(**kwargs: dict):
     current_file_path = os.path.realpath(__file__)
     root_path = go_up_n_dirs(os.path.dirname(current_file_path), 2)
-    dir_path = f"{root_path}/reports/allure-results/"
+    dir_path = os.path.join(root_path, 'test', 'reports', 'allure-results')
     file_path = os.path.join(dir_path, "environment.properties")
 
     # Create directory if it does not exist

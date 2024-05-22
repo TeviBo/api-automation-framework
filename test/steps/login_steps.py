@@ -1,13 +1,6 @@
 from behave import *  # NOSONAR
-from features.helpers.address_helper import get_addresses, assert_get_addresses
-from features.helpers.campaigns_helper import get_campaigns_by_hub, assert_get_campaigns_by_hub
-from features.helpers.shopping_cart_helper import get_cart, assert_get_cart
-from features.helpers.login_helper import generate_user, login, assert_login
-from features.helpers.products_helper import get_categories_by_store, assert_get_categories_by_store
 
-from src.lib.api.campaign_hub_api import CampaignHubClient
-from src.lib.api.customer_profile_api import CustomerProfileClient
-from src.lib.api.qry_catalog_api import QryCatalogClient
+from features.helpers.login_helper import generate_user, login, assert_login
 
 
 @Then('el sistema retorna un mensaje de error indicando que los datos son incorrectos')
@@ -41,7 +34,7 @@ def when_the_user_logs_in(context, user):
 
 @Then('el usuario "{user}" accede a la aplicacion')
 def assert_when_the_user_logs_in(context, user):
-    assert_login(context)
+    assert_login(context, user)
 
 
 @Step('se valida si el usuario "{user}" acepto los terminos y condiciones')
