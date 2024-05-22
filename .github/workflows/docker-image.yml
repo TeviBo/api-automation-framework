@@ -13,10 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: 3.12
+
       - name: Print working directory
         run: pwd
       - name: List files in the working directory
@@ -29,8 +32,13 @@ jobs:
         run: |
           echo $ENVIRONMENT
           echo $LOG_LEVEL
-      - name: Run Behave Tests
-        uses: cryptic-wizard/run-behave-tests@v0.4.0
-        with:
-          test-path: .
-          test-output-name: results.txt
+      - name: Build Docker image
+        run: |
+          docker build --build-arg ENV=${{ vars.ENVIRONMENT }} --build-arg LOG_LEVEL=${{ vars.LOG_LEVEL }} \
+            -t integration-tests .
+      - name: Run Tests for JOKR Application
+        run: |
+          docker run --rm --name integration-tests-container \
+                  -e TAG=84147 -e PLATFORM=AND -e CLEAN_LOGS=True \
+                  -e APPLICATION=JKR -e NOT_RUN=~MRK -e TAG_BUG=~BUG \
+                    integration-tests
