@@ -53,6 +53,6 @@ ARG TAG_BUG
 ARG APPLICATION
 ARG PLATFORM
 
-CMD ["/bin/bash", "-c", ". .venv/bin/activate && python -m behave -D application=$APPLICATION -D platform=$PLATFORM -D log_level=$LOG_LEVEL --tags=\"$TAG\" --tags=\"$NOT_RUN\" --tags=\"$TAG_BUG\" --no-skipped && tail -f /dev/null"]
+CMD ["/bin/bash", "-c", ". .venv/bin/activate && python -m behave -D application=$APPLICATION -D platform=$PLATFORM -D log_level=$LOG_LEVEL --tags=\"$TAG\" --tags=\"$NOT_RUN\" --tags=\"$TAG_BUG\" --no-skipped"]
 
 

@@ -9,7 +9,7 @@ on:
       - main
 env:
   ENVIRONMENT: QA
-  LOG_LEVEL: INFO
+  LOG_LEVEL: DEBUG
 
 jobs:
   build:
@@ -32,18 +32,7 @@ jobs:
                   -e TAG=LOGIN -e PLATFORM=AND -e CLEAN_LOGS=True \
                   -e APPLICATION=JKR -e NOT_RUN=~MRK -e TAG_BUG=~BUG \
                     integration-tests
-
-#      - name: Wait for container to finish
+#      - name: Clean Container
 #        run: |
-#          while [ "$(docker inspect -f '{{.State.Running}}' integration-tests-container)" == "true" ]; do
-#          sleep 1
-#          done
-
-      - name: Clean Container
-        run: |
-          docker stop integration-tests-container || true
-          docker rm -f integration-tests-container || true
-      - name: Clean Container
-        run: |
-          docker stop integration-tests-container
-          docker rm integration-tests-container
+#          docker stop integration-tests-container
+#          docker rm integration-tests-container
