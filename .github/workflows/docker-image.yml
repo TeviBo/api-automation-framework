@@ -25,6 +25,8 @@ jobs:
           pip install -r requirements.txt
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=project" >> $GITHUB_ENV
+      - name: Print working directory
+        run: pwd
       - name: Run Behave Tests
         uses: cryptic-wizard/run-behave-tests@v0.4.0
         with:
