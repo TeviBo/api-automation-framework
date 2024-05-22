@@ -1,0 +1,144 @@
+#noflake8
+trigger:
+  branches:
+    include:
+      - develop
+
+pr:
+  branches:
+    include:
+      - main
+
+schedules:
+  - cron: '0 14-22/3 * * 1-5'
+    displayName: Automatic run
+    branches:
+      include:
+        - main
+    always: true
+
+
+parameters:
+  - name: ENVIRONMENT
+    displayName: 'Select an environment'
+    type: string
+    default: 'qa'
+    values:
+      - 'qa'
+
+  - name: TAGS
+    displayName: 'Select a tag'
+    type: string
+    default: 'REGRESSION'
+    values:
+      - REGRESSION
+      - ADDRESSES
+      - CARDS
+      - CART
+      - CHECKOUT
+      - PICKING_PARTIAL
+      - LOGIN
+      - ORDERS
+      - PRODUCTS
+      - REGISTER
+      - SEARCH
+      - STOCK
+      - NEW_USER
+      - NEW_ORDER
+      - PARTIAL_ORDER
+      - NULL_PICKING
+
+  - name: CLEAN_LOGS
+    type: boolean
+    default: 'false'
+    displayName: 'Clean logs'
+    values:
+      - true
+      - false
+
+  - name: LOG_LEVEL
+    displayName: Log Level
+    type: string
+    default: 'INFO'
+    values:
+      - INFO
+      - WARNING
+      - ERROR
+      - DEBUG
+
+  - name: APPLICATION
+    displayName: Select Application to Test
+    type: string
+    default: 'JKR'
+    values:
+      - JKR
+      - MRK
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: DetermineFlow
+    jobs:
+      - job: SetFlowVariable
+        steps:
+          - script: |
+              if [ "$(Build.Reason)" == "PullRequest" ]; then
+                echo "##vso[task.setvariable variable=isCI]true"
+              elif [ "$(Build.Reason)" == "IndividualCI" ] || [ "$(Build.Reason)" == "BatchedCI" ]; then
+                echo "##vso[task.setvariable variable=isCI]true"
+              elif [ "$(Build.Reason)" == "Schedule" ]; then
+                echo "##vso[task.setvariable variable=isCI]true"
+              else
+                echo "##vso[task.setvariable variable=isCI]false"
+              fi
+              echo "Build.Reason: $(Build.Reason)"
+          - script: |
+              echo "##vso[task.setvariable variable=isCI;isOutput=true]$(isCI)"
+            name: setIsCIOutput
+            displayName: 'Setting stage execution variable'
+
+  - stage: JKRTests
+    displayName: 'JOKR Automatic Tests Stage'
+    dependsOn: DetermineFlow
+    condition: and(succeeded('DetermineFlow'), eq(dependencies.DetermineFlow.outputs['SetFlowVariable.setIsCIOutput.isCI'], 'true'))
+    jobs:
+      - job: RunTests
+        steps:
+          - template: azure-templates/ci-pipeline.yaml
+            parameters:
+              APPLICATION: 'JKR'
+              TAGS: REGRESSION
+              NOT_RUN: ~MRK
+              TAG_BUG: ~BUG
+
+  - stage: MRKTests
+    displayName: 'MERKAO Automatic Tests Stage'
+    dependsOn: JKRTests
+    condition: and(succeeded('DetermineFlow'), eq(dependencies.DetermineFlow.outputs['SetFlowVariable.setIsCIOutput.isCI'], 'true'))
+    jobs:
+      - job: RunTests
+        steps:
+          - template: azure-templates/ci-pipeline.yaml
+            parameters:
+              APPLICATION: 'MRK'
+              TAGS: REGRESSION
+              NOT_RUN: ~JKR
+              TAG_BUG: ~BUG
+              SKIP_TAG: ~NOT_LIM014
+
+  - stage: ManualExecution
+    displayName: 'Manually Run Selected Tests'
+    dependsOn: DetermineFlow
+    condition: and(succeeded('DetermineFlow'), eq(dependencies.DetermineFlow.outputs['SetFlowVariable.setIsCIOutput.isCI'], 'false'))
+    jobs:
+      - job: ManualExecution
+        steps:
+          - template: azure-templates/manual-pipeline.yaml
+            parameters:
+              APPLICATION: ${{ parameters.APPLICATION }}
+              TAG: ${{ parameters.TAGS }}
+              CLEAN_LOGS: ${{ parameters.CLEAN_LOGS }}
+              LOG_LEVEL: ${{ parameters.LOG_LEVEL }}
+              ENVIRONMENT: ${{ parameters.ENVIRONMENT }}
+              NOT_RUN: ~${{ parameters.APPLICATION }}

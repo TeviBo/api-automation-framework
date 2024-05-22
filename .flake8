@@ -1,0 +1,4 @@
+[flake8]
+per-file-ignores =
+    # redefinition of unused (Behave allows the same name for step functions)
+    ./test/steps/*.py: F811

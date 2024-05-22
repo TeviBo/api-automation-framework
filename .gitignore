@@ -1,0 +1,15 @@
+# IDE/OS config files
+.vscode/
+.DS_Store
+.idea/
+# Cache files
+__pycache__/
+*.pyc
+
+# Folders
+data/xlsx/*.xlsx
+reports/allure-results
+reports/allure-report
+
+# Files
+README.html

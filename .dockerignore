@@ -1,0 +1,16 @@
+# IDE and venv configuration folders
+.idea
+.venv
+
+# Repository files
+README.md
+.gitignore
+.flake8
+azure-templates
+automation-pipeline.yaml
+reports/allure-results
+docs
+
+# Cache Files
+__pycache__
+*.pyo

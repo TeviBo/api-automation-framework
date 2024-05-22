@@ -1,0 +1,30 @@
+#noflake8
+parameters:
+  - name: APPLICATION
+    default: ''
+  - name: TAG
+    default: ''
+  - name: CLEAN_LOGS
+    default: ''
+  - name: LOG_LEVEL
+    default: ''
+  - name: ENVIRONMENT
+    default: ''
+  - name: NOT_RUN
+    default: ''
+
+steps:
+  - script: |
+      docker build -t tests .
+    displayName: 'Build Docker Image for ${{ parameters.APPLICATION }} application'
+  - script: |
+      docker run \
+        -e ENVIRONMENT=${{ parameters.ENVIRONMENT }} \
+        -e TAGS=${{ parameters.TAG }} \
+        -e CLEAN_LOGS=${{ parameters.CLEAN_LOGS }} \
+        -e LOG_LEVEL=${{ parameters.LOG_LEVEL }} \
+        -e APPLICATION=${{ parameters.APPLICATION }} \
+        -e TAG_BUG=~BUG \
+        -e NOT_RUN=${{ parameters.NOT_RUN }} \
+        tests
+    displayName: 'Running selected tag: ${{ parameters.TAG }} for ${{ parameters.APPLICATION }} application'
