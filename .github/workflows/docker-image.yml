@@ -34,7 +34,7 @@ jobs:
           echo $LOG_LEVEL
       - name: Build Docker image
         run: |
-          docker build --build-arg ENV=${{ vars.ENVIRONMENT }} --build-arg LOG_LEVEL=${{ vars.LOG_LEVEL }} \
+          docker build --build-arg ENV=${{ env.ENVIRONMENT }} --build-arg LOG_LEVEL=${{ env.LOG_LEVEL }} \
             -t integration-tests .
       - name: Run Tests for JOKR Application
         run: |
