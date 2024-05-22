@@ -1,18 +1,19 @@
-import datetime
 import logging
 import logging.config as LoggingConfig
 import os
-from datetime import datetime, timedelta, timezone
-from typing import List
-
-from google.cloud import logging as google_cloud_logging
-from google.oauth2 import service_account
 
 from src.utils.utils import go_up_n_dirs
 
+
 # Load logging configuration
+
 root_path = go_up_n_dirs(os.path.abspath(__file__), 3)
-LoggingConfig.fileConfig(os.path.join(root_path, 'logging.conf'))
+try:
+    LoggingConfig.fileConfig(os.path.join(root_path, 'logging.conf'))
+except FileNotFoundError:
+    log_file_path = os.path.join(root_path, 'test', 'reports', 'logs', 'api-automation.log')
+    if not os.path.exists(log_file_path):
+        open(log_file_path, 'a').close()
 
 
 def get_logger(log_level):

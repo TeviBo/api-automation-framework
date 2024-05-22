@@ -2,6 +2,7 @@
 .vscode/
 .DS_Store
 .idea/
+
 # Cache files
 __pycache__/
 *.pyc

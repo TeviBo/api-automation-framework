@@ -6,8 +6,6 @@
 README.md
 .gitignore
 .flake8
-azure-templates
-automation-pipeline.yaml
 reports/allure-results
 docs
 
