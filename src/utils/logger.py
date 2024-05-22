@@ -8,12 +8,8 @@ from src.utils.utils import go_up_n_dirs
 # Load logging configuration
 
 root_path = go_up_n_dirs(os.path.abspath(__file__), 3)
-try:
-    LoggingConfig.fileConfig(os.path.join(root_path, 'logging.conf'))
-except FileNotFoundError:
-    log_file_path = os.path.join(root_path, 'test', 'reports', 'logs', 'api-automation.log')
-    if not os.path.exists(log_file_path):
-        open(log_file_path, 'a').close()
+LoggingConfig.fileConfig(os.path.join(root_path, 'logging.conf'))
+
 
 
 def get_logger(log_level):
