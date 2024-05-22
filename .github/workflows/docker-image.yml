@@ -19,6 +19,16 @@ jobs:
           python-version: 3.12
       - name: Print working directory
         run: pwd
+      - name: List files in the working directory
+        run: ls -la
+      - name: Set Environment Variables
+        run: |
+          echo "ENVIRONMENT=QA" >> $GITHUB_ENV
+          echo "LOG_LEVEL=DEBUG" >> $GITHUB_ENV
+      - name: Verify Environment Variables
+        run: |
+          echo $ENVIRONMENT
+          echo $LOG_LEVEL
       - name: Run Behave Tests
         uses: cryptic-wizard/run-behave-tests@v0.4.0
         with:
