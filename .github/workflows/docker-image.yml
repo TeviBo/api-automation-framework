@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: 3.12
       - name: Set PYTHONPATH
-        run: echo "PYTHONPATH=api-automation-framework" >> $GITHUB_ENV
+        run: echo "PYTHONPATH=$PWD/src" >> $GITHUB_ENV
       - name: Print working directory
         run: pwd
       - name: Run Behave Tests
