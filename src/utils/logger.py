@@ -26,7 +26,6 @@ def get_logger(log_level):
     else:
         raise AttributeError(f"LOG_LEVEL {log_level_upper} is invalid. Valid values are: DEBUG, INFO, ERROR")
 
-
 logger = get_logger(os.getenv("LOG_LEVEL"))
 
 
